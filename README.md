@@ -23,7 +23,7 @@ In it's simplest form, the plugin can be used by inserting the following into th
 		});
 	</script>
 	
-And then embeddeing a Gist into your page as your normally would, like so:
+And then embedding a Gist into your page as you normally would, like so:
 
     <script src="https://gist.github.com/2902410.js"></script>
 	
