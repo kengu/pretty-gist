@@ -5,19 +5,17 @@
  * Copyright (c) 2012 Joe Pettersson
  * Licensed under the MIT, GPL licenses.
  */
-;(function ( $, window, document, undefined ) {
+;(function ($, window, document, undefined) {
+	"use strict";
 	var pluginName = 'prettyGist',
 		defaults = {
 			extendedHeader: true,
 			showFooter: true
 		};
 
-	function prettyGist( element, options ) {
+	function prettyGist (element, options) {
 		this.element = element;
-		this.options = $.extend( {}, defaults, options) ;
-
-		this._defaults = defaults;
-		this._name = pluginName;
+		this.options = $.extend( {}, defaults, options);
 
 		this.init();
 	}
@@ -25,27 +23,32 @@
 	prettyGist.prototype = {
 		
 		init: function() {
-			var gist = $(this.element).attr("id").substring(5),
-				options = this.options,
-				el = this.element,
-				getData = this.model(gist, function(data){
-					$(".wrapper").append(prettyGist.prototype.layout(data, el, options));
+			var gist = $(this.element).attr("id").substring(5), options = this.options, el = this.element,
+				placeholder = this.placeholder(el),
+				go = this.model(gist, function(data){
+					$(".pretty-gist-placeholder").replaceWith(prettyGist.prototype.layout(data, el, options));
 					if (options.showFooter === true) {
 						prettyGist.prototype.bind(data.data.id);
 					}
+					if (typeof hljs !== "undefined"){
+						hljs.initHighlightingOnLoad();
+						$(".pretty-gist").addClass("hljs");
+					}
 				});
 		}, 
+
+		placeholder: function (el) {
+			var markup = '<div class="pretty-gist-placeholder"></div>';
+			$(markup).insertAfter(el);
+		},
 		
-		model: function(gist, callback) {
-			var url = 'https://api.github.com/gists/' + gist + '?callback=?';
-			$.getJSON(url, function(data){
-				if(typeof callback !== "undefined" && typeof callback === "function") {
-					callback(data);
-				}
+		model: function (gist, callback) {
+			$.getJSON('https://api.github.com/gists/' + gist + '?callback=?', function(data){
+				callback(data);
 			});
 		},
 
-		layout: function(data, el, options) {
+		layout: function (data, el, options) {
 			var markup = '';
 				markup += '<div class="pretty-gist" id="pretty-gist-' + data.data.id + '">';
 				// Build our header
@@ -85,7 +88,7 @@
 			return markup;
 		},
 
-		bind: function(gist_id) {
+		bind: function (gist_id) {
 			$(".show-embed").click(function(event){
 				event.preventDefault();
 				var data = '&lt;script src=&quot;' + $(this).attr("data-embed") + '&quot;>&lt;/script>',
@@ -105,7 +108,7 @@
 			});
 		},
 
-		modal: function(gist_id, title, data) {
+		modal: function (gist_id, title, data) {
 			$("#pretty-gist-" + gist_id).find(".gist-modal").remove();
 			var markup = '',
 				width = $("#pretty-gist-" + gist_id).outerWidth() - 2;
@@ -121,7 +124,7 @@
 		}
 	};
 
-	$.fn[pluginName] = function ( options ) {
+	$.fn[pluginName] = function (options) {
 		return this.each(function () {
 			if (!$.data(this, 'plugin_' + pluginName)) {
 				$.data(this, 'plugin_' + pluginName,

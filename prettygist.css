@@ -1,4 +1,7 @@
-.pretty-gist {
+.gist {
+	display: none;
+}
+.pretty-gist, .pretty-gist-placeholder {
 	font-size: 13px;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	-webkit-border-radius: 3px;
@@ -7,12 +10,18 @@
 	color: #444;
 	position: relative;
 }
+.pretty-gist-placeholder {
+	height: 50px;
+	border-color: #dbdbdb;
+	background: #f4f4f4 url(https://a248.e.akamai.net/assets.github.com/images/spinners/octocat-spinner-32.gif) center no-repeat;
+}
+
 /*Utility styles*/
 .clear:after { content: "."; display: block; height: 0; clear: both; visibility: hidden;}
 html[xmlns] .clear { display: block;}
 * html .clear { height: 1%;}
 
-.pretty-gist .header .logo a, .pretty-gist .code-container  {
+.pretty-gist .header .logo a, .pretty-gist .code-container, .pretty-gist .footer .button.show-plugin-info, .pretty-gist .footer .button.show-plugin-info:hover  {
 	background-image: url("github-sprite.png");
 }
 /*Header*/
@@ -161,23 +170,44 @@ html[xmlns] .clear { display: block;}
 	float: right;
 	-webkit-border-radius 3px;
 	border-radius: 3px;
+	text-indent: -9999px;
+	width: 16px;
+	height: 16px;
+	background-color: #ebebeb;
+	background-position: 7px -79px;
+	background-repeat: no-repeat;
+}
+.pretty-gist .footer .button.show-plugin-info:hover {
+	background-color: #d9d9d9;
+	background-position: 7px -79px;
 }
 .pretty-gist .code-container {
 	border-top: 1px solid #868686;
 	border-bottom: 1px solid #868686;
 	margin: 0px;
+	background-color: #fff;
 	background-position: -76px 0px;
 	background-repeat: repeat-y;
-	padding: 10px 0px 10px 2px;
+	padding: 0px 0px 0px 2px;
 	text-shadow: 1px 1px 1px #fff;
 	font-family: "Consolas", monospace;
 }
 .pretty-gist .code-container ol {
 	margin: 0px;
 }
+.pretty-gist .code-container li:last-child {
+	margin-bottom: 0px;
+}
 .pretty-gist .code-container pre {
-	margin-left: 20px;
 	font-family: "Consolas", monospace;
+	text-shadow: 1px 1px 1px #000;
+	color: #666;
+	width: 100%;
+	margin: 0px 0px 0px 2px;
+}
+.pretty-gist .code-container code {
+	padding-left: 20px;
+	margin-right: 3px;
 }
 .pretty-gist .gist-modal {
 	position: absolute;
