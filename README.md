@@ -23,6 +23,10 @@ In it's simplest form, the plugin can be used by inserting the following into th
 		});
 	</script>
 	
+And then embeddeing a Gist into your page as your normally would, like so:
+
+    <script src="https://gist.github.com/2902410.js"></script>
+	
 **Note:** in the above example all of the gists on the page will be replaced by pretty gists. You can, however, replace only one Gist at a time by referencing a Gists ID.
 
 ###Usage with Syntax highlighting
@@ -100,8 +104,12 @@ There are currently two custom options that are supported, as lid out below:
 		extendedHeader: true,
 		showFooter: true
 	});
+
+![image](http://i.imgur.com/yt2m2.jpg)
 	
 Setting `extendedHeader` to `false` will mean that no user information is displayed in the header of the pretty gist, by default it is set to true.
+
+![image](http://i.imgur.com/1zmKZ.jpg)
 
 Setting `showFooter` to `false` will, self-evidently mean that the footer is not shown.
 
