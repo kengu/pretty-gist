@@ -7,9 +7,10 @@
  */
 ;(function ($, window, document, undefined) {
 	"use strict";
-	// Setup our defaults, there are only two options for the plugin, set out below (and in more details in the README)
+	// Setup our defaults, there are only three options for the plugin, set out below (and in more details in the README)
 	var pluginName = 'prettyGist',
 		defaults = {
+			showHeader: true,
 			extendedHeader: true,
 			showFooter: true
 		};
@@ -63,28 +64,31 @@
 			// Construct our pretty gist
 			var markup = '';
 				markup += '<div class="pretty-gist" id="pretty-gist-' + data.data.id + '">';
-				// Build our header
-				markup += '<div class="header clear">';
-				// Check if we're building our extended header or not
-				if (options.extendedHeader === true) {
-					markup += '<div class="logo"><a href="https://github.com/">Github</a></div>';
-					markup += '<div class="user"><a href="https://github.com/' + data.data.user.login + '" class="github-user">';
-					// Check if the user who's gist this is has a custom avater, if not show the default github one
-					if (typeof data.data.user.avatar_url !== "undefined" && data.data.user.avatar_url.length > 0){
-						markup += '<img src="' + data.data.user.avatar_url + '" alt="Avatar" width="34px" height="34px" />';
+				// Check if we're building an header
+				if (options.showHeader === true) {
+					// Build our header
+					markup += '<div class="header clear">';
+					// Check if we're building our extended header or not
+					if (options.extendedHeader === true) {
+						markup += '<div class="logo"><a href="https://github.com/">Github</a></div>';
+						markup += '<div class="user"><a href="https://github.com/' + data.data.user.login + '" class="github-user">';
+						// Check if the user who's gist this is has a custom avater, if not show the default github one
+						if (typeof data.data.user.avatar_url !== "undefined" && data.data.user.avatar_url.length > 0){
+							markup += '<img src="' + data.data.user.avatar_url + '" alt="Avatar" width="34px" height="34px" />';
+						} else {
+							markup += '<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png" alt="Avatar" width="34px" height="34px" />';
+						}
+						markup += '</div>';
+						markup += '<div class="github-user-data">';
+						markup += '<h2><a href="https://gist.github.com/gists/' + data.data.id + '">' + data.data.description + '</a></h2>';
+						markup += '<h3><a href="https://github.com/' + data.data.user.login + '">' + data.data.user.login + '</a></h3>';
+						markup += '</div>';
 					} else {
-						markup += '<img src="https://a248.e.akamai.net/assets.github.com/images/gravatars/gravatar-140.png" alt="Avatar" width="34px" height="34px" />';
+						// build our smaller header if no extended header being shown
+						markup += '<h2 class="single"><a href="https://gist.github.com/gists/' + data.data.id + '">' + data.data.description + '</a></h2>';
 					}
 					markup += '</div>';
-					markup += '<div class="github-user-data">';
-					markup += '<h2><a href="https://gist.github.com/gists/' + data.data.id + '">' + data.data.description + '</a></h2>';
-					markup += '<h3><a href="https://github.com/' + data.data.user.login + '">' + data.data.user.login + '</a></h3>';
-					markup += '</div>';
-				} else {
-					// build our smaller header if no extended header being shown
-					markup += '<h2 class="single"><a href="https://gist.github.com/gists/' + data.data.id + '">' + data.data.description + '</a></h2>';
 				}
-				markup += '</div>';
 				// Build code pane by grabbing each line of the default embedded gist and creating list items in an ordered list to get line numbers 
 				markup += '<div class="code-container"><ol>';
 				$.each($(el).find(".line"), function(i){
@@ -143,6 +147,10 @@
 				}
 				markup += '</div>';
 			$(markup).insertBefore("#pretty-gist-" + gist_id + " .code-container");
+      // Remove modal if button clicked
+      $("#pretty-gist-" + gist_id + " .gist-modal").click(function(event){
+        $("#pretty-gist-" + gist_id).find(".gist-modal").remove();
+      });			
 		}
 	};
 
